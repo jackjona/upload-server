@@ -21,6 +21,7 @@ This project is **NOT** intended for a production environment.
 ---
 
 ### Note
+* The demo instance is using Netlify to handle file uploads. This project saves the uploaded file locally in the `uploads` directory on the server.
 * By default, files are saved to the `uploads` folder. 
 * The uploaded file will be generated a new filename with **no** file extension.
 * You **must** add the correct original file extension (.pdf, .jpg, .zip, .png) to the file.
