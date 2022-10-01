@@ -1,5 +1,8 @@
 # Upload-Server
-A simple node.js upload server that allows users to upload files to a local folder on the server.
+A simple  upload server that allows users to upload files to a local folder on the server.
+
+## Screeshot:
+![Screenshot of website](https://cdn.jsdelivr.net/gh/jackjona123/upload-server@main/public/assets/website.png "Screenshot of website")
 
 ## Disclaimer:
 This project is **NOT** intended for a production environment.
