@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="theme-color" content="#2E2E2E" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <title>File Upload Server</title>
+    <meta
+      name="description"
+      content="A simple website that allows users to upload files to a local folder on the server."
+    />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/assets/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/assets/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/assets/favicon-16x16.png"
+    />
+    <link rel="stylesheet" href="/styles.css" type="text/css" />
+  </head>
+
+  <body>
+    <div id="dropzone" class="container">
+      <h1 class="title">File Upload Server</h1>
+      <img src="/assets/icon.png" alt="Upload Icon" class="icon" />
+      <form
+        action="/upload"
+        method="POST"
+        enctype="multipart/form-data"
+        class="upload"
+      >
+        Drag &amp; Drop Or Select File:
+        <div class="inputs">
+          <div
+            id="upload-picker"
+            class="upload-button"
+            onclick="openFilePicker()"
+          >
+            click to upload a file
+          </div>
+          <input
+            type="file"
+            name="file"
+            id="file"
+            value="upload"
+            onchange="updateFileName(this)"
+          />
+          <label class="submit-button">
+            <input type="submit" value="Upload File" name="submit" />
+            Submit
+          </label>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      function openFilePicker() {
+        document.getElementById("file").click();
+      }
+
+      function updateFileName(inputElement) {
+        let file = inputElement.value;
+        let fileName = file.split("\\");
+        document.getElementById("upload-picker").innerHTML =
+          fileName[fileName.length - 1];
+      }
+
+      window.onload = function () {
+        let dropzone = document.getElementById("dropzone");
+
+        dropzone.ondragover = function () {
+          this.className = "dropzone dragover";
+          return false;
+        };
+
+        dropzone.ondragleave = function () {
+          this.className = "dropzone";
+          return false;
+        };
+
+        dropzone.ondrop = function (error) {
+          error.preventDefault();
+          this.className = "dropzone";
+          uploadFiles(error.dataTransfer.files);
+        };
+
+        function uploadFiles(files) {
+          let formData = new FormData();
+
+          for (let file of files) {
+            formData.append("file", file);
+          }
+
+          fetch("/upload", {
+            method: "POST",
+            body: formData,
+          })
+            .then((response) => response.text())
+            .then((data) => console.log(data))
+            .catch((error) => console.error(error));
+        }
+      };
+    </script>
+    <!--Fun console.log picture-->
+    <script
+      src="data:text/javascript;base64,Y29uc29sZS5sb2coYCVjClx1MjgwMFx1MjgwMFx1MjgwMFx1MjgwMFx1MjgwMFx1Mjg4MFx1Mjg0MFx1MjgwMFx1MjgwMFx1MjgwMFx1MjgwMFx1MjgwMFx1MjgwMFx1MjgwMFx1MjgwMFx1MjgwMFxyXG5cdTI4MDBcdTI4MDBcdTI4MDBcdTI4MDBcdTI4QjBcdTI4RkZcdTI4N0ZcdTI4MTdcdTI4MDBcdTI4MjBcdTI4MDRcdTI4NDBcdTI4MDBcdTI4MDBcdTI4MDBcdTI4MDBcclxuXHUyODAwXHUyODAwXHUyODAwXHUyODAwXHUyODVDXHUyODAxXHUyODAwXHUyODAwXHUyODAwXHUyODAwXHUyODAwXHUyODA4XHUyODExXHUyOEI2XHUyOEY2XHUyODQ0XHJcblx1Mjg4MFx1MjhGNlx1MjhFNlx1MjhGOFx1MjgwMFx1MjhCQ1x1MjhERlx1Mjg0N1x1MjgwMFx1MjgwMFx1Mjg4MFx1MjhDMFx1MjgwMFx1MjgxOFx1Mjg3Rlx1MjgwM1xyXG5cdTI4MDBcdTI4QkZcdTI4RkZcdTI4RkZcdTI4QzRcdTI4MTJcdTI4MDBcdTI4MjBcdTI4QjZcdTI4NDJcdTI4QUJcdTI4RkZcdTI4ODdcdTI4ODBcdTI4MDNcdTI4MDBcclxuXHUyODAwXHUyODA4XHUyODNCXHUyOEZGXHUyOEZGXHUyOEZGXHUyOEY2XHUyOEU0XHUyOEMwXHUyOEMwXHUyOEMwXHUyOEMyXHUyODYwXHUyODBBXHUyODAwXHUyODAwXHJcblx1MjgwMFx1MjgwMFx1MjgwMFx1MjgwM1x1MjgwMFx1MjgwMFx1MjgwOVx1MjgxOVx1MjgxQlx1MjgzRlx1MjhGRlx1MjhGRlx1MjhFN1x1MjgwMFx1MjgwMFx1MjgwMFxyXG5cdTI4MDBcdTI4MDBcdTI4MThcdTI4NDBcdTI4MDBcdTI4MDBcdTI4MDBcdTI4MDBcdTI4MDBcdTI4MDBcdTI4MThcdTI4RkZcdTI4RkZcdTI4NDdcdTI4MDBcdTI4MDBcclxuXHUyODAwXHUyODAwXHUyODAwXHUyOEY3XHUyOEM0XHUyODQwXHUyODAwXHUyODAwXHUyODAwXHUyODgwXHUyOEY0XHUyODVGXHUyODNGXHUyODAzXHUyODAwXHUyODAwXHJcblx1MjgwMFx1MjgwMFx1MjgwMFx1MjhCQlx1MjhGRlx1MjhGRlx1MjgwOVx1MjgwOVx1MjhCOVx1MjhGRlx1MjhGRlx1MjgwMVx1MjgwMFx1MjgwMFx1MjgwMFx1MjgwMFxyXG5cdTI4MDBcdTI4MDBcdTI4MDBcdTI4MDBcdTI4MDlcdTI4MDFcdTI4MDBcdTI4MDBcdTI4MDBcdTI4MDlcdTI4MDFcdTI4MDBcdTI4MDBcdTI4MDBcdTI4MDBcdTI4MDAKYCwgYGZvbnQtZmFtaWx5OiBtb25vc3BhY2VgKTs="
+      defer
+    ></script>
+  </body>
+</html>
