@@ -11,7 +11,11 @@
       name="description"
       content="A simple website that allows users to upload files to a local folder on the server."
     />
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+    <link
+      rel="mask-icon"
+      href="/assets/safari-pinned-tab.svg"
+      color="#5bbad5"
+    />
     <link
       rel="apple-touch-icon"
       sizes="180x180"
@@ -58,7 +62,8 @@
             value="upload"
             onchange="updateFileName(this)"
           />
-          <label class="submit-button">
+
+          <label id="submit-button" class="submit-button">
             <input type="submit" value="Upload File" name="submit" />
             Submit
           </label>
@@ -100,8 +105,9 @@
         function uploadFiles(files) {
           let formData = new FormData();
 
-          for (let file of files) {
-            formData.append("file", file);
+          // Only the first file will be uploaded.
+          if (files.length > 0) {
+            formData.append("file", files[0]);
           }
 
           fetch("/upload", {
@@ -109,7 +115,11 @@
             body: formData,
           })
             .then((response) => response.text())
-            .then((data) => console.log(data))
+            .then(
+              (data) =>
+                (document.getElementById("submit-button").innerHTML =
+                  "Uploaded")
+            )
             .catch((error) => console.error(error));
         }
       };
