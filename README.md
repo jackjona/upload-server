@@ -1,4 +1,4 @@
-# Upload-Server
+# upload-server
 
 A simple upload server that allows users to upload files to a local folder on the server.
 
